@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class createTableAddresses1656628707316 implements MigrationInterface {
+export class createTableAddresses1656976122454 implements MigrationInterface {
   private table = new Table({
-    name: 'address',
+    name: 'addresses',
     columns: [
       {
         name: 'id',
@@ -40,18 +40,6 @@ export class createTableAddresses1656628707316 implements MigrationInterface {
         name: 'state',
         type: 'varchar',
         length: '2',
-      },
-      {
-        name: 'createdAt',
-        type: 'timestamptz',
-        isNullable: false,
-        default: 'now()',
-      },
-      {
-        name: 'updatedAt',
-        type: 'timestamptz',
-        isNullable: false,
-        default: 'now()',
       },
     ],
   });

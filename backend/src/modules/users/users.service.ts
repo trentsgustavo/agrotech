@@ -1,19 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) {}
+  async create(data: CreateUserInput): Promise<User> {
+    const user = await this.userRepository.create(data);
+    const userSaved = await this.userRepository.save(user);
+
+    if (!userSaved) {
+      throw new InternalServerErrorException('Erro ao criar usuário');
+    }
+
+    return userSaved;
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    return await this.userRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) throw new NotFoundException('Usuário não encontrado');
+    return user;
   }
 
   update(id: number, updateUserInput: UpdateUserInput) {

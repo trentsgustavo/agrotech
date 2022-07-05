@@ -1,13 +1,8 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class createTableCustomers1656628692490 implements MigrationInterface {
+export class createTableUsers1656976088533 implements MigrationInterface {
   private table = new Table({
-    name: 'customers',
+    name: 'users',
     columns: [
       {
         name: 'id',
@@ -22,13 +17,16 @@ export class createTableCustomers1656628692490 implements MigrationInterface {
         length: '255',
       },
       {
-        name: 'phone',
+        name: 'email',
         type: 'varchar',
-        length: '11',
+        length: '255',
+        isUnique: true,
+        isNullable: false,
       },
       {
-        name: 'addressId',
-        type: 'integer',
+        name: 'password',
+        type: 'varchar',
+        length: '255',
       },
       {
         name: 'active',
@@ -51,23 +49,11 @@ export class createTableCustomers1656628692490 implements MigrationInterface {
     ],
   });
 
-  foreignKey = new TableForeignKey({
-    columnNames: ['addressId'],
-    referencedTableName: 'addresses',
-    referencedColumnNames: ['id'],
-  });
-
   public async up(queryRunner: QueryRunner): Promise<void> {
-    Promise.all([
-      queryRunner.createTable(this.table),
-      queryRunner.createForeignKey('customers', this.foreignKey),
-    ]);
+    await queryRunner.createTable(this.table);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    Promise.all([
-      queryRunner.dropTable(this.table),
-      queryRunner.dropForeignKey('customers', this.foreignKey),
-    ]);
+    await queryRunner.dropTable(this.table);
   }
 }

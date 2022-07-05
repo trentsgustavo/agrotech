@@ -1,10 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class createTableProductTypes1656630202609
-  implements MigrationInterface
-{
+export class createTableBrands1656976154109 implements MigrationInterface {
   private table = new Table({
-    name: 'product_types',
+    name: 'brands',
     columns: [
       {
         name: 'id',
@@ -17,11 +15,6 @@ export class createTableProductTypes1656630202609
         name: 'name',
         type: 'varchar',
         length: '255',
-      },
-      {
-        name: 'measure',
-        type: 'varchar',
-        length: '2',
       },
     ],
   });

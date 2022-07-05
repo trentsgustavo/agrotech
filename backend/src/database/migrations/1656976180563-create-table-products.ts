@@ -5,7 +5,7 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class createTableProducts1656628714475 implements MigrationInterface {
+export class createTableProducts1656976180563 implements MigrationInterface {
   private table = new Table({
     name: 'products',
     columns: [

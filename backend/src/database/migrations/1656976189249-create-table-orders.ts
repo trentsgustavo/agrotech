@@ -5,9 +5,9 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class createTableRequests1656628726341 implements MigrationInterface {
+export class createTableOrders1656976189249 implements MigrationInterface {
   private table = new Table({
-    name: 'requests',
+    name: 'orders',
     columns: [
       {
         name: 'id',
@@ -74,16 +74,16 @@ export class createTableRequests1656628726341 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     Promise.all([
       queryRunner.createTable(this.table),
-      queryRunner.createForeignKey('requests', this.foreignKeyCreated),
-      queryRunner.createForeignKey('requests', this.foreignKeyUpdated),
+      queryRunner.createForeignKey('orders', this.foreignKeyCreated),
+      queryRunner.createForeignKey('orders', this.foreignKeyUpdated),
     ]);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     Promise.all([
       queryRunner.dropTable(this.table),
-      queryRunner.dropForeignKey('requests', this.foreignKeyCreated),
-      queryRunner.dropForeignKey('requests', this.foreignKeyUpdated),
+      queryRunner.dropForeignKey('orders', this.foreignKeyCreated),
+      queryRunner.dropForeignKey('orders', this.foreignKeyUpdated),
     ]);
   }
 }

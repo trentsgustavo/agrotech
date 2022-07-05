@@ -1,6 +1,6 @@
 This is a project in development.
 
-In order to learn and improve Backen, Frontend and Mobile skills.
+In order to learn and improve Backend, Frontend and Mobile skills.
 
 Using technologies such as:
 

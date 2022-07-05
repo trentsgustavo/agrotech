@@ -5,11 +5,11 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class createTableRequestProducts1656630609379
+export class createTableOrderProducts1656976202993
   implements MigrationInterface
 {
   private table = new Table({
-    name: 'request_products',
+    name: 'order_products',
     columns: [
       {
         name: 'id',
@@ -23,7 +23,7 @@ export class createTableRequestProducts1656630609379
         type: 'integer',
       },
       {
-        name: 'requestId',
+        name: 'orderId',
         type: 'integer',
       },
     ],
@@ -35,25 +35,25 @@ export class createTableRequestProducts1656630609379
     referencedColumnNames: ['id'],
   });
 
-  foreignKeyRequest = new TableForeignKey({
-    columnNames: ['requestId'],
-    referencedTableName: 'requests',
+  foreignKeyOrder = new TableForeignKey({
+    columnNames: ['orderId'],
+    referencedTableName: 'orders',
     referencedColumnNames: ['id'],
   });
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     Promise.all([
       queryRunner.createTable(this.table),
-      queryRunner.createForeignKey('request_products', this.foreignKeyProduct),
-      queryRunner.createForeignKey('request_products', this.foreignKeyRequest),
+      queryRunner.createForeignKey('order_products', this.foreignKeyProduct),
+      queryRunner.createForeignKey('order_products', this.foreignKeyOrder),
     ]);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     Promise.all([
       queryRunner.dropTable(this.table),
-      queryRunner.dropForeignKey('request_products', this.foreignKeyProduct),
-      queryRunner.dropForeignKey('request_products', this.foreignKeyRequest),
+      queryRunner.dropForeignKey('order_products', this.foreignKeyProduct),
+      queryRunner.dropForeignKey('order_products', this.foreignKeyOrder),
     ]);
   }
 }

@@ -9,26 +9,35 @@ import {
 
 @Entity()
 @ObjectType()
-export class User {
+export class Order {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
   id: number;
 
   @Column()
-  name: string;
+  total: number;
 
   @Column()
-  email: string;
+  quota: number;
 
   @Column()
-  password: string;
+  paid: boolean;
 
   @Column()
-  active: boolean;
+  paymentDate: Date;
+
+  @Column()
+  deliveryDate: Date;
 
   @CreateDateColumn()
   createdAt: Date;
 
+  @Column()
+  createdBy: number;
+
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column()
+  updatedBy: number;
 }

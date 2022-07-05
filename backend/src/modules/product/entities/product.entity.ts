@@ -1,7 +1,25 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity()
 @ObjectType()
 export class Product {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @PrimaryGeneratedColumn()
+  @Field(() => ID)
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Column()
+  value: number;
+
+  @Column()
+  size: string;
+
+  @Column()
+  brandId: number;
+
+  @Column()
+  productTypeId: number;
 }
