@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+@Entity('customers')
 @ObjectType()
-@Entity()
 export class Customer {
   @PrimaryGeneratedColumn()
   @Field(() => ID)

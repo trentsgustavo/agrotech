@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('users')
 @ObjectType()
 export class User {
   @PrimaryGeneratedColumn()
@@ -15,20 +15,26 @@ export class User {
   id: number;
 
   @Column()
+  @Field()
   name: string;
 
   @Column()
+  @Field()
   email: string;
 
   @Column()
+  @Field()
   password: string;
 
   @Column()
+  @Field()
   active: boolean;
 
   @CreateDateColumn()
+  @Field()
   createdAt: Date;
 
   @UpdateDateColumn()
+  @Field()
   updatedAt: Date;
 }

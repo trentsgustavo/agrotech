@@ -9,17 +9,17 @@ export class UpdateUserInput {
 
   @IsString()
   @IsOptional()
-  name: string;
+  name?: string;
 
   @IsString()
   @IsOptional()
-  email: string;
+  email?: string;
 
   @IsString()
   @IsOptional()
-  password: string;
+  password?: string;
 
   @IsString()
   @IsOptional()
-  active: boolean;
+  active?: boolean;
 }

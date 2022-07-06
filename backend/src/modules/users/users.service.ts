@@ -35,11 +35,17 @@ export class UsersService {
     return user;
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(id: number, data: UpdateUserInput) {
+    await this.findOne(id);
+
+    return this.userRepository.save(data);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const user = await this.findOne(id);
+
+    return this.userRepository.update(user, {
+      active: false,
+    });
   }
 }

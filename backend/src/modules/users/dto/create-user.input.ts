@@ -17,5 +17,5 @@ export class CreateUserInput {
 
   @IsString()
   @IsOptional()
-  active: boolean;
+  active?: boolean;
 }

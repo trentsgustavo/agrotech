@@ -1,7 +1,6 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-
-console.log('config ->>', process.cwd());
+import entities from './entities';
 
 const config = {
   type: 'postgres',
@@ -10,7 +9,7 @@ const config = {
   username: 'postgres',
   password: 'postgres',
   database: 'agrotech',
-  entities: [__dirname + '/modules/**/entities/*.entity{.ts,.js}'],
+  entities: entities,
   migrations: [process.cwd() + 'src/database/migrations/*{.ts,.js}'],
   migrationsRun: false,
   synchronize: false,
