@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCustomerInput } from './dto/create-customer.input';
 import { UpdateCustomerInput } from './dto/update-customer.input';
+import { Customer } from './entities/customer.entity';
 
 @Injectable()
 export class CustomerService {
-  create(createCustomerInput: CreateCustomerInput) {
-    return 'This action adds a new customer';
+  constructor(
+    @InjectRepository(Customer)
+    private customerRepository: Repository<Customer>,
+  ) {}
+
+  async create(data: CreateCustomerInput): Promise<Customer> {
+    const customer = this.customerRepository.create(data);
+    const customerSaved = await this.customerRepository.save(customer);
+
+    if (!customerSaved) {
+      throw new InternalServerErrorException('Erro ao criar usuário');
+    }
+
+    return customerSaved;
   }
 
-  findAll() {
-    return `This action returns all customer`;
+  async findAll() {
+    return await this.customerRepository.find({ where: { active: true } });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async findOne(id: number) {
+    const customer = await this.customerRepository.findOneBy({ id });
+    if (!customer) throw new NotFoundException('Cliente não encontrado');
+    return customer;
   }
 
-  update(id: number, updateCustomerInput: UpdateCustomerInput) {
-    return `This action updates a #${id} customer`;
+  async update(id: number, data: UpdateCustomerInput) {
+    await this.findOne(id);
+
+    return this.customerRepository.save(data);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  async remove(id: number) {
+    await this.findOne(id);
+
+    this.customerRepository.save({
+      id: id,
+      active: false,
+    });
+
+    return id;
   }
 }

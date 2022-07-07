@@ -3,7 +3,10 @@ import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '../auth/auth.guard';
 
+@UseGuards(GqlAuthGuard)
 @Resolver(() => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
@@ -28,8 +31,8 @@ export class UsersResolver {
     return this.usersService.update(data.id, data);
   }
 
-  @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
+  @Mutation(() => Int)
+  removeUser(@Args('id') id: number) {
     return this.usersService.remove(id);
   }
 }

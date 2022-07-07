@@ -21,14 +21,14 @@ export class Customer {
   phone: string;
 
   @Column()
-  addresId: string;
+  addressId: number;
 
   @Column({ default: true })
-  active: string;
+  active: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ default: 'now()' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ default: 'now()' })
   updatedAt: Date;
 }

@@ -3,14 +3,17 @@ import { CustomerService } from './customer.service';
 import { Customer } from './entities/customer.entity';
 import { CreateCustomerInput } from './dto/create-customer.input';
 import { UpdateCustomerInput } from './dto/update-customer.input';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '../auth/auth.guard';
 
+@UseGuards(GqlAuthGuard)
 @Resolver(() => Customer)
 export class CustomerResolver {
   constructor(private readonly customerService: CustomerService) {}
 
   @Mutation(() => Customer)
-  createCustomer(@Args('createCustomerInput') createCustomerInput: CreateCustomerInput) {
-    return this.customerService.create(createCustomerInput);
+  createCustomer(@Args('data') data: CreateCustomerInput) {
+    return this.customerService.create(data);
   }
 
   @Query(() => [Customer], { name: 'customer' })
@@ -24,12 +27,12 @@ export class CustomerResolver {
   }
 
   @Mutation(() => Customer)
-  updateCustomer(@Args('updateCustomerInput') updateCustomerInput: UpdateCustomerInput) {
-    return this.customerService.update(updateCustomerInput.id, updateCustomerInput);
+  updateCustomer(@Args('data') data: UpdateCustomerInput) {
+    return this.customerService.update(data.id, data);
   }
 
-  @Mutation(() => Customer)
-  removeCustomer(@Args('id', { type: () => Int }) id: number) {
+  @Mutation(() => Int)
+  removeCustomer(@Args('id') id: number) {
     return this.customerService.remove(id);
   }
 }

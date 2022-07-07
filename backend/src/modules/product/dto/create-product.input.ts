@@ -1,7 +1,25 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { IsNumber, IsNotEmpty, IsBoolean, IsString } from 'class-validator';
 
 @InputType()
 export class CreateProductInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @IsString()
+  @IsNotEmpty({ message: 'Field cannot be empty' })
+  name: number;
+
+  @IsNumber()
+  @IsNotEmpty({ message: 'Field cannot be empty' })
+  value: number;
+
+  @IsString()
+  @IsNotEmpty({ message: 'Field cannot be empty' })
+  size: string;
+
+  @IsNumber()
+  @IsNotEmpty({ message: 'Field cannot be empty' })
+  brandId: number;
+
+  @IsNumber()
+  @IsNotEmpty({ message: 'Field cannot be empty' })
+  productTypeId: number;
 }
