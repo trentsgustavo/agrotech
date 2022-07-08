@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateAddressInput } from './dto/create-address.input';
 import { UpdateAddressInput } from './dto/update-address.input';
+import { Address } from './entities/address.entity';
 
 @Injectable()
 export class AddressService {
-  create(createAddressInput: CreateAddressInput) {
-    return 'This action adds a new address';
+  constructor(
+    @InjectRepository(Address)
+    private addressRepository: Repository<Address>,
+  ) {}
+
+  async create(data: CreateAddressInput) {
+    const address = this.addressRepository.create(data);
+    const addressSaved = await this.addressRepository.save(address);
+
+    if (!addressSaved) {
+      throw new InternalServerErrorException('Erro ao criar endereço');
+    }
+
+    return addressSaved;
   }
 
-  findAll() {
-    return `This action returns all address`;
+  async findAll() {
+    return await this.addressRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} address`;
+  async findOne(id: number) {
+    const address = await this.addressRepository.findOneBy({ id });
+    if (!address) throw new NotFoundException('Endereço não encontrado');
+    return address;
   }
 
-  update(id: number, updateAddressInput: UpdateAddressInput) {
-    return `This action updates a #${id} address`;
+  async update(id: number, data: UpdateAddressInput) {
+    await this.findOne(id);
+
+    return this.addressRepository.save(data);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} address`;
+  async remove(id: number) {
+    await this.findOne(id);
+
+    this.addressRepository.save({
+      id: id,
+      active: false,
+    });
+
+    return id;
   }
 }

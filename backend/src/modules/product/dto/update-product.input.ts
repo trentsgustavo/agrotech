@@ -10,7 +10,7 @@ export class UpdateProductInput extends PartialType(CreateProductInput) {
 
   @IsString()
   @IsNotEmpty({ message: 'Field cannot be empty' })
-  name?: number;
+  name?: string;
 
   @IsNumber()
   @IsNotEmpty({ message: 'Field cannot be empty' })

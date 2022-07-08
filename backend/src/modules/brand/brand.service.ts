@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateBrandInput } from './dto/create-brand.input';
 import { UpdateBrandInput } from './dto/update-brand.input';
+import { Brand } from './entities/brand.entity';
 
 @Injectable()
 export class BrandService {
-  create(createBrandInput: CreateBrandInput) {
-    return 'This action adds a new brand';
+  constructor(
+    @InjectRepository(Brand)
+    private brandRepository: Repository<Brand>,
+  ) {}
+
+  async create(data: CreateBrandInput) {
+    const brand = this.brandRepository.create(data);
+    const brandSaved = await this.brandRepository.save(brand);
+
+    if (!brandSaved) {
+      throw new InternalServerErrorException('Erro ao criar marca');
+    }
+
+    return brandSaved;
   }
 
-  findAll() {
-    return `This action returns all brand`;
+  async findAll() {
+    return await this.brandRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} brand`;
+  async findOne(id: number) {
+    const brand = await this.brandRepository.findOneBy({ id });
+    if (!brand) throw new NotFoundException('Marca não encontrado');
+    return brand;
   }
 
-  update(id: number, updateBrandInput: UpdateBrandInput) {
-    return `This action updates a #${id} brand`;
+  async update(id: number, data: UpdateBrandInput) {
+    await this.findOne(id);
+
+    return this.brandRepository.save(data);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} brand`;
+  async remove(id: number) {
+    await this.findOne(id);
+
+    this.brandRepository.save({
+      id: id,
+      active: false,
+    });
+
+    return id;
   }
 }
