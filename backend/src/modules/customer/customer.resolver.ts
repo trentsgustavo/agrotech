@@ -6,7 +6,7 @@ import { UpdateCustomerInput } from './dto/update-customer.input';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/auth.guard';
 
-@UseGuards(GqlAuthGuard)
+// @UseGuards(GqlAuthGuard)
 @Resolver(() => Customer)
 export class CustomerResolver {
   constructor(private readonly customerService: CustomerService) {}
@@ -16,7 +16,7 @@ export class CustomerResolver {
     return this.customerService.create(data);
   }
 
-  @Query(() => [Customer], { name: 'customer' })
+  @Query(() => [Customer], { name: 'customers' })
   findAll() {
     return this.customerService.findAll();
   }
