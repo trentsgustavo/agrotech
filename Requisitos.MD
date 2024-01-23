@@ -10,13 +10,12 @@
 
 ** USUÁRIOS **
 
-- CRUD de usuários
+- [x] CRUD de usuários
 - FIELDS: Usuário, senha, email, telefone
 - Cada usuário fica vinculado a apenas um perfil
 
 ** PERFIS **
 
-- CRUD de perfis
 - FIELDS: Nome
 - Tipos de perfil: Admin, Loja, Vendedor, Cliente
 - Acessos por perfil:
@@ -28,25 +27,25 @@
 
 ** CATEGORIAS **
 
-- CRUD de categorias de produtos
+- [x] CRUD de categorias de produtos
 - FIELDS: Nome, medida(kg/lt/un)
 
 ** MARCAS **
 
-- CRUD de categorias de produtos
+- [x] CRUD de categorias de produtos
 - FIELDS: Nome
 
 ** PRODUTOS **
 
-- CRUD de produtos
+- [x] CRUD de produtos
 - FIELDS: Nome, marca, preço compra, preço venda, qtd estoque
 
 ** CLIENTES **
 
-- CRUD de clientes
+- [x] CRUD de clientes
 - FIELDS: Nome, endereço, documento
 
 ** PEDIDOS **
 
-- CRUD de pedidos
+- [] CRUD de pedidos
 - FIELDS: clienteId, produtosId, total, qtds, pago, entregue, dt entrega

@@ -8,7 +8,7 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	dsn := "host=localhost user=postgres password=postgres dbname=books port=5432 sslmode=disable"
+	dsn := "host=localhost user=postgres password=postgres dbname=agrotech port=5432 sslmode=disable"
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
@@ -16,8 +16,14 @@ func ConnectDatabase() {
 	}
 
 	err = database.AutoMigrate(
-		&Book{},
+		&Profile{},
+		&Brand{},
+		&Category{},
 		&User{},
+		&Customer{},
+		&Product{},
+		&Order{},
+		&OrderProduct{},
 	)
 
 	if err != nil {
