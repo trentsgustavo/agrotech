@@ -1,12 +1,27 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/trentsgustavo/agrotech/controllers"
 	"github.com/trentsgustavo/agrotech/models"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	PORT := os.Getenv("PORT")
+
+	if PORT == "" {
+		PORT = "8080"
+	}
+
 	r := gin.Default()
 
 	models.ConnectDatabase()
@@ -54,5 +69,5 @@ func main() {
 	orders.PATCH(":id", controllers.UpdateOrder)
 	orders.DELETE(":id", controllers.DeleteOrder)
 
-	r.Run()
+	r.Run(":" + PORT)
 }
