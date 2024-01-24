@@ -7,12 +7,6 @@ import (
 	"github.com/trentsgustavo/agrotech/models"
 )
 
-type SaveCustomerInput struct {
-	Document string `json:"document"`
-	Address  string `json:"address"`
-	UserId   int    `json:"userId"`
-}
-
 func FindCustomers(c *gin.Context) {
 	var customers []models.Customer
 	models.DB.Find(&customers)

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 	"time"
 
@@ -9,26 +8,24 @@ import (
 	"github.com/trentsgustavo/agrotech/models"
 )
 
-type SaveOrderInput struct {
-	CustomerId   int    `json:"customerId"`
-	Paid         bool   `json:"paid"`
-	Deliver      bool   `json:"deliver"`
-	DeliveryDate string `json:"deliveryDate"`
-	Products     []int  `json:"products"`
-}
-
-type CreateOrderProductInput struct {
-	OrderId   int `json:"orderId"`
-	ProductId int `json:"productId"`
-	CreatedBy int `json:"createdBy"`
-	UpdatedBy int `json:"updatedBy"`
-}
+const layout = "2006-01-02"
 
 func FindOrders(c *gin.Context) {
 	var orders []models.Order
 	models.DB.Find(&orders)
 
 	c.JSON(http.StatusOK, gin.H{"data": orders})
+}
+
+func FindOrder(c *gin.Context) {
+	var order models.Order
+
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&order).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Order not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": order})
 }
 
 func CreateOrder(c *gin.Context) {
@@ -39,32 +36,92 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
-	const layout = "2006-01-02"
-	t, err := time.Parse(layout, input.DeliveryDate)
+	deliveryDate, err := time.Parse(layout, input.DeliveryDate)
 	if err != nil {
-		log.Fatal(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
+
+	tx := models.DB.Begin()
 
 	order := models.Order{
 		CustomerId:   input.CustomerId,
 		Paid:         input.Paid,
 		Deliver:      input.Deliver,
-		DeliveryDate: t,
+		DeliveryDate: deliveryDate,
 	}
-	models.DB.Create(&order)
+	tx.Create(&order)
 
-	var products []models.OrderProduct
+	CreateOrderProducts(input.Products, int(order.ID), tx)
 
-	for i := 0; i < len(input.Products); i++ {
-		products = append(products, models.OrderProduct{
-			OrderId:   int(order.ID),
-			ProductId: input.Products[i],
-			CreatedBy: 1,
-			UpdatedBy: 1,
-		})
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
-
-	models.DB.Create(products)
 
 	c.JSON(http.StatusOK, gin.H{"data": order})
+}
+
+func UpdateOrder(c *gin.Context) {
+	var order models.Order
+
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&order).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Order not found"})
+		return
+	}
+
+	var input SaveOrderInput
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	tx := models.DB.Begin()
+
+	deliveryDate, err := time.Parse(layout, input.DeliveryDate)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	tx.Model(&order).Updates(&models.Order{
+		Paid:         input.Paid,
+		Deliver:      input.Deliver,
+		DeliveryDate: deliveryDate,
+	})
+
+	UpdateOrderProducts(input.Products, input.UpdateProducts, input.DeleteProducts, int(order.ID), tx)
+
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": order})
+}
+
+func DeleteOrder(c *gin.Context) {
+	var order models.Order
+
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&order).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Order not found"})
+		return
+	}
+
+	tx := models.DB.Begin()
+
+	DeleteOrderProducts(int(order.ID), tx)
+
+	tx.Delete(&order)
+
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": true})
 }

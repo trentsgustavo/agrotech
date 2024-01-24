@@ -9,15 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type SaveProductInput struct {
-	Name       string  `json:"name"`
-	PriceBuy   float64 `json:"priceBuy"`
-	PriceSale  float64 `json:"priceSale"`
-	Stock      int     `json:"stock"`
-	BrandId    int     `json:"brandId"`
-	CategoryId int     `json:"categoryId"`
-}
-
 func FindProducts(c *gin.Context) {
 	var products []models.Product
 	models.DB.Find(&products)

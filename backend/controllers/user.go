@@ -8,21 +8,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type CreateUserInput struct {
-	Username  string `json:"username"`
-	Password  []byte `json:"password"`
-	Name      string `json:"name"`
-	Phone     string `json:"phone"`
-	ProfileId int    `json:"profileId"`
-}
-
-type UpdateUserInput struct {
-	Username  string `json:"username"`
-	Name      string `json:"name"`
-	Phone     string `json:"phone"`
-	ProfileId int    `json:"profileId"`
-}
-
 func FindUsers(c *gin.Context) {
 	var users []models.User
 	models.DB.Find(&users)

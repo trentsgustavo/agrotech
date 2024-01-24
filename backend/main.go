@@ -49,7 +49,10 @@ func main() {
 	products.DELETE(":id", controllers.DeleteProduct)
 
 	orders.GET("", controllers.FindOrders)
+	orders.GET(":id", controllers.FindOrder)
 	orders.POST("", controllers.CreateOrder)
+	orders.PATCH(":id", controllers.UpdateOrder)
+	orders.DELETE(":id", controllers.DeleteOrder)
 
 	r.Run()
 }

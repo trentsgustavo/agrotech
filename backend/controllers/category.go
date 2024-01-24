@@ -7,11 +7,6 @@ import (
 	"github.com/trentsgustavo/agrotech/models"
 )
 
-type SaveCategoryInput struct {
-	Name    string `json:"name"`
-	Measure string `json:"measure"`
-}
-
 func FindCategories(c *gin.Context) {
 	var categories []models.Category
 	models.DB.Find(&categories)

@@ -7,10 +7,6 @@ import (
 	"github.com/trentsgustavo/agrotech/models"
 )
 
-type SaveBrandInput struct {
-	Name string `json:"name"`
-}
-
 func FindBrands(c *gin.Context) {
 	var brands []models.Brand
 	models.DB.Find(&brands)

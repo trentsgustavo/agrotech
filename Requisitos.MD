@@ -47,5 +47,5 @@
 
 ** PEDIDOS **
 
-- [] CRUD de pedidos
+- [ ] CRUD de pedidos
 - FIELDS: clienteId, produtosId, total, qtds, pago, entregue, dt entrega
