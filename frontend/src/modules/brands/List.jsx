@@ -1,5 +1,5 @@
 const List = () => {
-  return <div>Brand List</div>
+  return <div className="text-gray-900">Brand List</div>
 }
 
 export default List

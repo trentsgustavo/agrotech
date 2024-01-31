@@ -8,7 +8,7 @@ const MainLayout = () => {
   return (
     <>
       <aside className="fixed top-0 left-0 z-40 w-64 h-screen">
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-green-700">
           <a
             href="https://flowbite.com/"
             className="flex items-center ps-2.5 mb-5"
@@ -18,7 +18,7 @@ const MainLayout = () => {
               className="h-6 me-3 sm:h-7"
               alt="Flowbite Logo"
             />
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center text-xl font-semibold whitespace-nowrap">
               Flowbite
             </span>
           </a>
@@ -27,7 +27,7 @@ const MainLayout = () => {
               <button
                 key={`auth-route-${idx}`}
                 onClick={() => navigate(route.path)}
-                className="flex items-center w-full p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+                className="flex items-center w-full p-2 text-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-900 group"
               >
                 {route.icon}
                 <span className="ms-3 uppercase font-bold">{route.title}</span>
@@ -35,9 +35,11 @@ const MainLayout = () => {
             ))}
           </ul>
           <div className="absolute bottom-2 w-3/4">
-            <button className="flex w-full items-center text-gray-500">
-              <ArrowLeftEndOnRectangleIcon className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
-              <span className="ms-3 uppercase font-bold">Sair</span>
+            <button className="flex w-full items-center">
+              <ArrowLeftEndOnRectangleIcon className="w-5 h-5 text-gray-200 transition duration-75 group-hover:text-gray-900" />
+              <span className="ms-3 uppercase font-bold text-gray-300">
+                Sair
+              </span>
             </button>
           </div>
         </div>

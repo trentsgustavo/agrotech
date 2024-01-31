@@ -18,7 +18,7 @@ export const authenticatedRoutes = [
   {
     path: '/brands',
     icon: (
-      <BriefcaseIcon className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+      <BriefcaseIcon className="w-5 h-5 text-gray-200 transition duration-75 group-hover:text-gray-900" />
     ),
     component: <BrandList />,
     title: 'Marcas',
@@ -27,7 +27,7 @@ export const authenticatedRoutes = [
   {
     path: '/categories',
     icon: (
-      <QueueListIcon className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+      <QueueListIcon className="w-5 h-5 text-gray-200 transition duration-75 group-hover:text-gray-900" />
     ),
     component: <CategoryList />,
     title: 'Categorias',
@@ -36,7 +36,7 @@ export const authenticatedRoutes = [
   {
     path: '/products',
     icon: (
-      <ShoppingBagIcon className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+      <ShoppingBagIcon className="w-5 h-5 text-gray-200 transition duration-75 group-hover:text-gray-900" />
     ),
     component: <ProductList />,
     title: 'Produtos',
@@ -45,7 +45,7 @@ export const authenticatedRoutes = [
   {
     path: '/customers',
     icon: (
-      <BuildingStorefrontIcon className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+      <BuildingStorefrontIcon className="w-5 h-5 text-gray-200 transition duration-75 group-hover:text-gray-900" />
     ),
     component: <CustomerList />,
     title: 'Clientes',
@@ -54,7 +54,7 @@ export const authenticatedRoutes = [
   {
     path: '/orders',
     icon: (
-      <ClipboardIcon className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+      <ClipboardIcon className="w-5 h-5 text-gray-200 transition duration-75 group-hover:text-gray-900" />
     ),
     component: <OrderList />,
     title: 'Pedidos',
@@ -63,7 +63,7 @@ export const authenticatedRoutes = [
   {
     path: '/users',
     icon: (
-      <UserCircleIcon className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+      <UserCircleIcon className="w-5 h-5 text-gray-200 transition duration-75 group-hover:text-gray-900" />
     ),
     component: <UserList />,
     title: 'Usuários',

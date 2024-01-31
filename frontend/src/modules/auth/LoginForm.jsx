@@ -1,10 +1,21 @@
 import { useForm } from 'react-hook-form'
-import { useCallback } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { api } from '../../services/api'
+import { useAuth } from '../../hooks/auth.store'
 
 const LoginForm = () => {
   const { register, handleSubmit } = useForm()
+  const { login } = useAuth()
 
-  const onSubmit = useCallback(() => {}, [])
+  const { mutate } = useMutation({
+    mutationFn: async (payload) => {
+      const { data } = await api.post('/login', {
+        ...payload,
+      })
+
+      login(data)
+    },
+  })
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -20,7 +31,7 @@ const LoginForm = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-6" onSubmit={handleSubmit(mutate)}>
           <div>
             <label
               htmlFor="email"

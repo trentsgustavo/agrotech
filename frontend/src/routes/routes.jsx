@@ -6,8 +6,7 @@ import MainLayout from '../layouts/MainLayout'
 import LoginForm from '../modules/auth/LoginForm'
 
 const Router = () => {
-  // const { isAuthenticated } = useAuth()
-  const isAuthenticated = false
+  const { isAuthenticated } = useAuth()
   const routes = isAuthenticated ? authenticatedRoutes : publicRoutes
 
   return (
