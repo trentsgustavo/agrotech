@@ -43,7 +43,7 @@ type SaveProductInput struct {
 
 type CreateUserInput struct {
 	Username  string `json:"username"`
-	Password  []byte `json:"password"`
+	Password  string `json:"password"`
 	Name      string `json:"name"`
 	Phone     string `json:"phone"`
 	ProfileId int    `json:"profileId"`

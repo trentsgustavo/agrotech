@@ -33,10 +33,7 @@ const LoginForm = () => {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleSubmit(mutate)}>
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-green-700"
-            >
+            <label className="block text-sm font-medium leading-6 text-green-700">
               Email address
             </label>
             <div className="mt-2">
@@ -51,10 +48,7 @@ const LoginForm = () => {
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-green-700"
-            >
+            <label className="block text-sm font-medium leading-6 text-green-700">
               Password
             </label>
             <div className="mt-2">

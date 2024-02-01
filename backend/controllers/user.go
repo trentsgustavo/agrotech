@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/trentsgustavo/agrotech/models"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/trentsgustavo/agrotech/utils"
 )
 
 func FindUsers(c *gin.Context) {
@@ -19,11 +19,12 @@ func CreateUser(c *gin.Context) {
 	var input CreateUserInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
+		print(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	password, err := HashPassword(string(input.Password))
+	password, err := utils.HashPassword(input.Password)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error on hash"})
@@ -84,9 +85,4 @@ func FindUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": user})
-}
-
-func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
 }
