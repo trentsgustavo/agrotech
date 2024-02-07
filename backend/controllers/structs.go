@@ -1,5 +1,10 @@
 package controllers
 
+type LoginInput struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 type OrderProductInput struct {
 	ID        int     `json:"id,omitempty"`
 	ProductId int     `json:"productId,omitempty"`

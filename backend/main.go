@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/trentsgustavo/agrotech/controllers"
+	"github.com/trentsgustavo/agrotech/middleware"
 	"github.com/trentsgustavo/agrotech/models"
 )
 
@@ -26,12 +27,14 @@ func main() {
 
 	models.ConnectDatabase()
 
-	brands := r.Group("/brands")
-	categories := r.Group("/categories")
-	users := r.Group("/users")
-	customers := r.Group("/customers")
-	products := r.Group("/products")
-	orders := r.Group("/orders")
+	r.POST("/login", controllers.Login)
+
+	brands := r.Group("/brands").Use(middleware.AuthRequired())
+	categories := r.Group("/categories").Use(middleware.AuthRequired())
+	users := r.Group("/users").Use(middleware.AuthRequired())
+	customers := r.Group("/customers").Use(middleware.AuthRequired())
+	products := r.Group("/products").Use(middleware.AuthRequired())
+	orders := r.Group("/orders").Use(middleware.AuthRequired())
 
 	brands.GET("", controllers.FindBrands)
 	brands.GET(":id", controllers.FindBrand)
