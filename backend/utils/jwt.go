@@ -21,19 +21,29 @@ func NewAccessToken(user models.User, c *gin.Context) string {
 	claims := &Token{
 		ID: user.ID,
 		RegisteredClaims: jwt.RegisteredClaims{
-			// In JWT, the expiry time is expressed as unix milliseconds
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},
 	}
 
-	// Declare the token with the algorithm used for signing, and the claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	tokenString, err := token.SignedString(os.Getenv("SECRET"))
+	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
 
 	return tokenString
+}
+
+func ValidateAccessToken(accessToken string) bool {
+	token, err := jwt.Parse(accessToken, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("SECRET")), nil
+	})
+
+	if err != nil {
+		return false
+	}
+
+	return token.Valid
 }
