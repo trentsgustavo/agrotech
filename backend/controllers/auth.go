@@ -35,3 +35,7 @@ func Login(c *gin.Context) {
 
 	c.SetCookie("token", token, 300, "/", "localhost", false, true)
 }
+
+func Logout(c *gin.Context) {
+	c.SetCookie("token", "", -1, "/", "localhost", false, true)
+}

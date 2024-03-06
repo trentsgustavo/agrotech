@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks/auth.store'
 
 const LoginForm = () => {
   const { register, handleSubmit } = useForm()
-  const { login } = useAuth()
+  // const { login } = useAuth()
 
   const { mutate } = useMutation({
     mutationFn: async (payload) => {
@@ -13,7 +13,9 @@ const LoginForm = () => {
         ...payload,
       })
 
-      login(data)
+      console.log('data ->', data)
+
+      // login(data)
     },
   })
 
